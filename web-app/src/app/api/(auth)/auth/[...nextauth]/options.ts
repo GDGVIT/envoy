@@ -26,24 +26,21 @@ export const authOptions: NextAuthOptions = {
                             { email: credentials.email },
                             { username: credentials.email }
                         ]
-                     }));
+                     })).select("+password");
 
-                    if (!user) {
-                        throw new Error("No user found.");
-                    }
+
+                    if (!user) return null;
 
                     const isPasswordValid = await comparePassword(
                         credentials.password,
                         user.password
                     );
 
-                    if (!isPasswordValid) {
-                        throw new Error("Invalid password.");
-                    }
+                    if (!isPasswordValid) return null;
 
                     return {
                         id: user._id.toString(),
-                        name: user.fullName,
+                        name: user.name,
                         email: user.email,
                     };
                 } catch (error: any) {
@@ -52,6 +49,7 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
+    
     session: {
         strategy: "jwt",
         maxAge: 24 * 60 * 60, // 24 hours
