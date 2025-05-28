@@ -12,6 +12,10 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: "All fields are required" }, { status: 400 });
     }
 
+    if(!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        return NextResponse.json({ message: "Invalid email format." }, { status: 400 });
+    }
+
     try {
 
         await connectMongo();
