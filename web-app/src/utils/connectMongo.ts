@@ -6,7 +6,7 @@ if(!uri){
     throw new Error('NEXT_MONGO_URI is not defined in environment variables');
 }
 
-export const connectMongo = async () => {
+const connectMongo = async () => {
 
     try {
 
@@ -22,3 +22,5 @@ export const connectMongo = async () => {
     }
 
 }
+
+export default connectMongo;
