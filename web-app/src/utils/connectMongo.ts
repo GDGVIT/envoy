@@ -18,12 +18,19 @@ const connectMongo = async () => {
 
     await Promise.all([
       import("@/models/user"),
-      import("@/models/group"),
-      import("@/models/workspace"),
       import("@/models/basicGroup"),
+      import("@/models/organization"),
+      import("@/models/orgMembership"),
+      import("@/models/team"),
+      import("@/models/teamMembership"),
+      import("@/models/project"),
+      import("@/models/environment"),
+      import("@/models/invite"),
+      import("@/models/apiToken"),
+      import("@/models/auditLog"),
+      import("@/models/passkey"),
     ]);
 
-    console.log("MongoDB connected and models registered.");
   } catch (error) {
     console.error("MongoDB connection error:", error);
     throw new Error("MongoDB connection error");

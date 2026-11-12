@@ -1,63 +1,29 @@
 import type { Metadata } from "next";
-import { Inter, PT_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import AuthSessionProvider from "@/providers/SessionProvider";
-import { Toaster } from "sonner";
 import { ThemeProvider } from "@/providers/MyThemeProvider";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const ptMono = PT_Mono({
-  variable: "--font-pt-mono",
-  subsets: ["latin"],
-  weight: "400",
-});
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
-  title: "Envoy - Secure Environment Variable Management",
-  description: "Envoy is a secure platform for managing and synchronizing your environment variables across multiple workspaces. Simplify your development workflow with Envoy.",
-  icons: {
-    icon: [
-      { url: '/assets/envoy-logo.svg' },
-      { url: '/assets/envoy-logo.svg', type: 'image/svg' },
-    ],
-    apple: [
-      { url: '/assets/envoy-logo.svg' },
-    ],
-  },
+  title: { default: "Envoy: environment variables for teams", template: "%s | Envoy" },
+  description:
+    "Store, share and fetch environment variables across your organization, with per-team access, two-factor sign-in and an audit log.",
+  icons: { icon: "/assets/envoy-logo.svg", apple: "/assets/envoy-logo.svg" },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${inter.variable} ${ptMono.variable}`}
-    >
-      <body className="antialiased" >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
+    <html lang="en" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <AuthSessionProvider>
-            <Toaster position="bottom-right"
-              toastOptions={{
-                style: {
-                  background: "#00916C",
-                  color: "#fff",
-                  border: "#00916C",
-                },
-              }}
-            />
-            {children}
+            <TooltipProvider delayDuration={300}>
+              {children}
+              <Toaster position="bottom-right" />
+            </TooltipProvider>
           </AuthSessionProvider>
         </ThemeProvider>
       </body>
